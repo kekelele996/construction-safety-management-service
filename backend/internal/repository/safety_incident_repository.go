@@ -100,7 +100,7 @@ func (r *SafetyIncidentRepository) SeverityDistribution() ([]map[string]any, err
 // PendingRectification 待整改事件。
 func (r *SafetyIncidentRepository) PendingRectification() ([]model.SafetyIncident, error) {
 	var list []model.SafetyIncident
-	if err := r.db.Where("status IN ?", []string{"resolved", "closed"}).
+	if err := r.db.Where("status IN ?", []string{"investigating", "resolved"}).
 		Order("rectification_deadline ASC").Limit(10).Find(&list).Error; err != nil {
 		return nil, fmt.Errorf("pending rectification: %w", err)
 	}
