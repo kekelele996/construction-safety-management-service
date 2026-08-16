@@ -48,7 +48,7 @@ func (s *SafetyIncidentService) Assign(id uint64) (*model.SafetyIncident, error)
 	if err != nil {
 		return nil, util.Wrap(err, "SafetyIncident[id=%d] assign find failed", id)
 	}
-	if i.Status != constants.IncidentInvestigating {
+	if i.Status != constants.IncidentReported {
 		return nil, util.NewAppError(constants.CodeIncidentStatusConflict, "SafetyIncident[id="+u64(id)+"] assign conflict: status="+i.Status)
 	}
 	i.Status = constants.IncidentInvestigating
@@ -84,7 +84,7 @@ func (s *SafetyIncidentService) Close(id uint64) (*model.SafetyIncident, error) 
 	if err != nil {
 		return nil, util.Wrap(err, "SafetyIncident[id=%d] close find failed", id)
 	}
-	if i.Status != constants.IncidentReported {
+	if i.Status != constants.IncidentResolved {
 		return nil, util.NewAppError(constants.CodeIncidentStatusConflict, "SafetyIncident[id="+u64(id)+"] close conflict: status="+i.Status)
 	}
 	i.Status = constants.IncidentClosed

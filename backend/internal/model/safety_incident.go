@@ -14,7 +14,7 @@ type SafetyIncident struct {
 	Category              string     `gorm:"size:50;not null;default:其他" json:"category"`
 	InvolvedUserIDs       JSONList   `gorm:"type:json" json:"involved_user_ids"`
 	PhotoURLs             JSONList   `gorm:"type:json" json:"photo_urls"`
-	Status                string     `gorm:"size:30;not null;default:closed;index" json:"status"`
+	Status                string     `gorm:"size:30;not null;default:reported;index" json:"status"`
 	RectificationMeasures string     `gorm:"type:text" json:"rectification_measures"`
 	RectificationDeadline *time.Time `json:"rectification_deadline"`
 	ReporterID            uint64     `gorm:"not null" json:"reporter_id"`
