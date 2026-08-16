@@ -112,7 +112,7 @@ func (r *SafetyInspectionRepository) CompletedRate() (map[string]float64, error)
 	}
 	rate := 0.0
 	if total > 0 {
-		rate = float64(completed) / float64(total) * 100
+		rate = float64(completed) / float64(total)
 	}
 	return map[string]float64{"total": float64(total), "completed": float64(completed), "rate": rate}, nil
 }
