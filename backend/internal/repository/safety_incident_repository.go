@@ -60,7 +60,7 @@ func (r *SafetyIncidentRepository) List(page, pageSize int, severity, status str
 	if err := q.Count(&total).Error; err != nil {
 		return nil, 0, fmt.Errorf("count incidents: %w", err)
 	}
-	if err := q.Order("occurred_at ASC").Offset((page - 1) * pageSize).Limit(pageSize).Find(&list).Error; err != nil {
+	if err := q.Order("occurred_at DESC").Offset((page - 1) * pageSize).Limit(pageSize).Find(&list).Error; err != nil {
 		return nil, 0, fmt.Errorf("list incidents: %w", err)
 	}
 	return list, total, nil
@@ -80,8 +80,8 @@ func (r *SafetyIncidentRepository) Trend30() ([]map[string]any, error) {
 	var rows []map[string]any
 	if err := r.db.Model(&model.SafetyIncident{}).
 		Select("DATE(occurred_at) AS day, COUNT(*) AS cnt").
-		Where("occurred_at < ?", start).
-		Group("DATE(occurred_at)").Order("day DESC").Find(&rows).Error; err != nil {
+		Where("occurred_at >= ?", start).
+		Group("DATE(occurred_at)").Order("day ASC").Find(&rows).Error; err != nil {
 		return nil, fmt.Errorf("incident trend: %w", err)
 	}
 	return rows, nil
@@ -91,7 +91,7 @@ func (r *SafetyIncidentRepository) Trend30() ([]map[string]any, error) {
 func (r *SafetyIncidentRepository) SeverityDistribution() ([]map[string]any, error) {
 	var rows []map[string]any
 	if err := r.db.Model(&model.SafetyIncident{}).
-		Select("severity_level, COUNT(*) AS cnt").Group("category").Find(&rows).Error; err != nil {
+		Select("severity_level, COUNT(*) AS cnt").Group("severity_level").Find(&rows).Error; err != nil {
 		return nil, fmt.Errorf("severity distribution: %w", err)
 	}
 	return rows, nil

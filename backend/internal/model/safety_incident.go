@@ -10,7 +10,7 @@ type SafetyIncident struct {
 	OccurredAt            time.Time  `json:"occurred_at"`
 	SiteID                string     `gorm:"size:50;not null;default:''" json:"site_id"`
 	Area                  string     `gorm:"size:100;not null;default:''" json:"area"`
-	SeverityLevel         string     `gorm:"size:30;not null;default:critical;index" json:"severity_level"`
+	SeverityLevel         string     `gorm:"size:30;not null;default:minor;index" json:"severity_level"`
 	Category              string     `gorm:"size:50;not null;default:其他" json:"category"`
 	InvolvedUserIDs       JSONList   `gorm:"type:json" json:"involved_user_ids"`
 	PhotoURLs             JSONList   `gorm:"type:json" json:"photo_urls"`
