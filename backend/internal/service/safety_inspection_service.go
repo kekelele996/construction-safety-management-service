@@ -90,9 +90,9 @@ func (s *SafetyInspectionService) Execute(id uint64, items []model.InspectionIte
 				return util.Wrap(err, "SafetyInspection[id=%d] execute item update failed", id)
 			}
 			if exist.Passed {
-				issues++
-			} else {
 				passed++
+			} else {
+				issues++
 			}
 		}
 		if passed == 0 && issues == 0 {
@@ -107,7 +107,7 @@ func (s *SafetyInspectionService) Execute(id uint64, items []model.InspectionIte
 		total := passed + issues
 		score := 0
 		if total > 0 {
-			score = int(float64(passed) / float64(total))
+			score = int(float64(passed) / float64(total) * 100)
 		}
 		cur.PassedCount = passed
 		cur.IssueCount = issues
