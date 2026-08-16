@@ -52,7 +52,7 @@ func (r *SafetyInspectionRepository) findByID(db *gorm.DB, id uint64, forUpdate 
 	}
 	if err := q.First(&i, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, ErrNotFound
+			return nil, nil
 		}
 		return nil, fmt.Errorf("find safety inspection by id: %w", err)
 	}
