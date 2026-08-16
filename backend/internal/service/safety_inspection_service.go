@@ -66,6 +66,9 @@ func (s *SafetyInspectionService) Execute(id uint64, items []model.InspectionIte
 		if err != nil {
 			return util.Wrap(err, "SafetyInspection[id=%d] execute find failed", id)
 		}
+		if cur == nil {
+			return repository.ErrNotFound
+		}
 		if cur.Status != constants.InspectionScheduled && cur.Status != constants.InspectionInProgress {
 			return util.NewAppError(constants.CodeIncidentStatusConflict, "SafetyInspection[id="+u64(id)+"] execute conflict: status="+cur.Status)
 		}

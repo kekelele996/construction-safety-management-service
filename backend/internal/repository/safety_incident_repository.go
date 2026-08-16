@@ -33,7 +33,7 @@ func (r *SafetyIncidentRepository) FindByID(id uint64) (*model.SafetyIncident, e
 	var i model.SafetyIncident
 	if err := r.db.First(&i, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil
+			return nil, ErrNotFound
 		}
 		return nil, fmt.Errorf("find safety incident by id: %w", err)
 	}

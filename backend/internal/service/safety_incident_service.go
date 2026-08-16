@@ -48,6 +48,9 @@ func (s *SafetyIncidentService) Assign(id uint64) (*model.SafetyIncident, error)
 	if err != nil {
 		return nil, util.Wrap(err, "SafetyIncident[id=%d] assign find failed", id)
 	}
+	if i == nil {
+		return nil, repository.ErrNotFound
+	}
 	if i.Status != constants.IncidentReported {
 		return nil, util.NewAppError(constants.CodeIncidentStatusConflict, "SafetyIncident[id="+u64(id)+"] assign conflict: status="+i.Status)
 	}
